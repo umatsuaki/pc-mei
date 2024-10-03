@@ -1,3 +1,6 @@
+import { aiduchi } from "./constants";
+import { mikuMotion } from "./constants";
+
 
 // 現在日時を文字列として返す
 const getNowDateTimeAsString = (): string => {
@@ -29,7 +32,7 @@ const getNowDateTimeAsString = (): string => {
  * @param format - 日付フォーマットの文字列
  * @returns 指定されたフォーマットの日時文字列
  */
-function formatDate(date: Date, format: string): string {
+const formatDate = (date: Date, format: string): string => {
     // 年を4桁で置換
     format = format.replace(/yyyy/g, date.getFullYear().toString());
 
@@ -111,17 +114,20 @@ const getUrlVars = (): { [key: string]: string } => {
     return vars;
 }
 
-// ランダムで相槌やmikuMotionを取得する関数
-const getRandom = <T>(array: T[]): T | undefined => {
-    if (array.length === 0) {
-        return undefined;
-    }
-    const randomIndex: number = Math.floor(Math.random() * array.length);
-    return array[randomIndex];
-};
+// 相槌をランダムに返す関数
+const getRandomAiduchi = (): string => {
+    const random: number = Math.floor(Math.random() * aiduchi.length);
+    return aiduchi[random];
+}
+
+// モーションをランダムに返す関数
+const getRandomMotion = (): string => {
+    const random: number = Math.floor(Math.random() * mikuMotion.length);
+    return mikuMotion[random];
+}
 
 
 
 
 
-export { getUrlVars, getNowDateTimeAsString, refreshAt, getRandom, formatDate };
+export { getUrlVars, getNowDateTimeAsString, refreshAt, formatDate, getRandomAiduchi, getRandomMotion };

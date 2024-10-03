@@ -1,8 +1,6 @@
 import { MeboAPIResponse } from "../../../../libs/types/meboAPIResponse";
-import { Person } from "../../../../libs/types/person";
 import getMeboAPIResponse from "../../../../libs/queryAndMutation/meboAPI";
-import miku_say from "./action/say";
-import { SPEAKER } from "../../../../libs/types/speaker";
+import mikuSay from "./action/say";
 
 
 
@@ -13,7 +11,7 @@ import { SPEAKER } from "../../../../libs/types/speaker";
  * @returns APIからの応答文を解決するプロミス。条件により空文字列を返す場合があります。
  * @throws meboAPIの実行中にエラーが発生した場合。
  */
-const getResponse = async (ans: string, uid: string, talking: boolean, speaker: SPEAKER, person: Person): Promise<string> => {
+const getResponse = async (ans: string, uid: string): Promise<string> => {
     try {
         // MeboAPIを実行
         const result: MeboAPIResponse = await getMeboAPIResponse(ans, uid);
@@ -35,16 +33,16 @@ const getResponse = async (ans: string, uid: string, talking: boolean, speaker: 
                 const str2: string = str.substring(periodIndex + 1).trim();
 
                 if (str2.length > 0) {
-                    await miku_say(str1, uid, talking, speaker, person);
+                    await mikuSay(str1,uid);
                     str = str2;
                 } else {
-                    await miku_say(str1, uid, talking, speaker, person);
+                    await mikuSay(str1, uid);
                     return str1;
                 }
             }
             // 残りの文が「。」を含まない場合
             if (str.length > 0) {
-                await miku_say(str, uid, talking, speaker, person);
+                await mikuSay(str, uid);
                 return str;
             }
             return "";

@@ -1,27 +1,24 @@
 import MMD from "../../mmd";
-import { Person } from "../../../../../libs/types/person";
 import { SPEAKER } from "../../../../../libs/types/speaker";
 import { postDialogueLogs } from "../../../../../libs/queryAndMutation/dialoguelogs";
 
-
-const mmd = new MMD();
-
+const mmd = new MMD("localhost:8080", "localhost:39390");
 /**
  * モーション付きでミクちゃんが問いかける．Promiseが返る．
  * @param str 問いかけ文字列
  * @param motion 問いかけ時のモーション
  * @returns 問いかけ文字列を返すプロミス
  */
-const miku_say = async (str: string, motion: string = "smile", talking: boolean, speaker: SPEAKER, person: Person): Promise<string | void> => {
-    if (!talking) {
-        return;
-    }
+const mikuSay = async (str: string, uid: string, motion: string = "smile"): Promise<string | void> => {
     if (!str.length) {
         return;
     }
+
+    const speaker = SPEAKER.AGENT;
+
     await mmd.doMotion(motion);
     console.log("miku says " + str);
-    postDialogueLogs(str, speaker, person);
+    postDialogueLogs(str, speaker, uid);
     while (str.includes(")") || str.includes("）")) {
         if (str.includes("(")) {
             const i = str.indexOf("(");
@@ -44,4 +41,4 @@ const miku_say = async (str: string, motion: string = "smile", talking: boolean,
     return str;
 }
 
-export default miku_say;
+export default mikuSay;

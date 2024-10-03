@@ -1,27 +1,26 @@
-import { SPEAKER } from "../../../../../libs/types/speaker";
-import { Person } from "../../../../../libs/types/person";
 import { getResponse } from "../getResponse";
+import { getRandomAiduchi } from "../../../../../libs/utils";
+import mikuAsk from "./ask";
+import { MikuActionConfig } from "../../../../../libs/types/mikuActionConfig";
+import endKeicho from "./endKeicho";
+import { postLoading } from "../../mikuActionUI";
 
-declare function get_aiduchi(): string;
-declare function post_loading(): void;
 
-const keicho = async (str: string, motion: string, uid: string, talking: boolean, speaker: SPEAKER, person: Person): Promise<void> => {
+
+const keicho = async (str: string, config: MikuActionConfig, motion: string = "smile"): Promise<void> => {
     do {
-
-        const answer: string | void = await miku_ask(str, false, motion) ?? "";
-
+        const answer: string = await mikuAsk(str, config, motion) ?? "";
         if (/終わり$|やめる$/.test(answer)) {
-            // await end_keicho("またお話ししてくださいね", "bye");
+            await endKeicho("またお話ししてくださいね", config, "bye");
             return;
         }
-
-        post_loading();
+        postLoading();
         try {
-            str = await getResponse(answer, uid, talking, speaker, person);
+            str = await getResponse(answer, config.uid);
         } catch {
-            str = get_aiduchi();
+            str = getRandomAiduchi();
         }
-    } while (talking);
+    } while (true);
 }
 
 export default keicho;

@@ -84,5 +84,13 @@ const allMikuMotion = [
     "wait",
 ];
 
+const feelings = ["楽しかった",
+    "イライラした",
+    "ドキドキした",
+    "悲しかった",
+    "おもしろかった",
+    "つらかった",
+    "嬉しかった"];
+
 
 export { mikuMotion, aiduchi, allMikuMotion };

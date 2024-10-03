@@ -1,20 +1,21 @@
 import React from 'react';
+import { RouteObject } from 'react-router-dom';
 
 import InstallManualPage from './routes/InstallManualPage';
 import TopPage from './routes/TopPage';
 import KeichoPage from './routes/KeichoPage';
 
-export const router = [
+export const router: RouteObject[] = [
     {
-        path: '/dist/install-manual',
+        path: '/install-manual',
         element: <InstallManualPage />
     },
     {
-        path: '/dist/',
+        path: '/',
         element: <TopPage />
     },
     {
-        path: '/dist/keicho',
+        path: '/keicho',
         element: <KeichoPage />
     }
 ];

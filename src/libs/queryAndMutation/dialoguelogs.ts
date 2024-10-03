@@ -1,16 +1,18 @@
 import { formatDate } from '../utils';
 import { DialogueLog } from '../types/dialogueLog';
-import { Person } from '../types/person';
 import { SPEAKER } from '../types/speaker';
 import { DialogueLogForPost } from '../types/dailogueLogForPost';
 import dayjs from 'dayjs';
+import { getPersonInfo } from './youid';
 
 /**
  * APIを実行し，指定した日付の対話ログを取得
  * @param date - 対話ログを取得したい日付
  * @returns 指定した日付の対話ログのPromise
  */
-async function getDialogueLogs(date: Date, person: Person): Promise<DialogueLog> {
+async function getDialogueLogs(date: Date, uid: string): Promise<DialogueLog[]> {
+
+    const person = await getPersonInfo(uid);
     // 日付を 'yyyy-MM-dd' 形式にフォーマットします。
     const dateStr: string = formatDate(date, 'yyyy-MM-dd');
 
@@ -35,7 +37,7 @@ async function getDialogueLogs(date: Date, person: Person): Promise<DialogueLog>
             throw new Error(`リクエストが失敗しました。ステータスコード: ${response.status}, メッセージ: ${errorText}`);
         }
 
-        const result: DialogueLog = await response.json();
+        const result: DialogueLog[] = await response.json();
         console.log(result);
         return result;
     } catch (error) {
@@ -50,7 +52,10 @@ async function getDialogueLogs(date: Date, person: Person): Promise<DialogueLog>
  * @param speaker - メッセージの送信者
  * @returns Promise<void>
  */
-const postDialogueLogs = async (str: string, speaker: SPEAKER, person: Person): Promise<void> => {
+const postDialogueLogs = async (str: string, speaker: SPEAKER, uid: string): Promise<void> => {
+
+    const person = await getPersonInfo(uid);
+
     const url: string = 'https://wsapp.cs.kobe-u.ac.jp/~masa-n/FluentdProxy/proxy.cgi';
 
     // データ作成

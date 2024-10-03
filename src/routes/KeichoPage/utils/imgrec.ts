@@ -3,12 +3,8 @@
  * 画像データの保存先は音声データと同じ
  */
 
-// ビデオストリームを定義
-let videostm: MediaStream | null = null;
-
-
 // カメラをオン．ビデオストリームを映す (CSSで隠す)
-async function loadVideo(): Promise<HTMLVideoElement | void> {
+const loadVideo = async (): Promise<HTMLVideoElement> => {
     const video = document.getElementById('videostm') as HTMLVideoElement;
     video.width = 320;
     video.height = 240;
@@ -24,18 +20,19 @@ async function loadVideo(): Promise<HTMLVideoElement | void> {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = stream;
-        videostm = stream;
 
         return new Promise<HTMLVideoElement>((resolve) => {
             video.onloadedmetadata = () => {
                 resolve(video);
             };
         });
+    } else {
+        throw new Error("メディアデバイスが利用できません");
     }
 }
 
 // カメラをオフ
-async function stopVideo(): Promise<void> {
+const stopVideo = async (): Promise<void> => {
     const videoElement = document.getElementById('videostm') as HTMLVideoElement;
 
     if (videoElement.srcObject) {
@@ -47,7 +44,6 @@ async function stopVideo(): Promise<void> {
         });
 
         videoElement.srcObject = null;
-        videostm = null;
     }
 }
 

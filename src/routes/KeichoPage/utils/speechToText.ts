@@ -13,13 +13,6 @@ import { SpeechRecognitionState } from '../../../libs/types/speechRecognitionSta
 import { ImageDataItem } from '../../../libs/types/ImageDataItem';
 import { Callback } from '../../../libs/types/callback';
 
-// グローバル変数の宣言
-declare const voicerec: boolean;
-declare const imgtak: boolean;
-declare let audioDataIndex: number;
-declare let audioDataDest: string;
-declare let imgDataIndex: number;
-declare const videostm: HTMLVideoElement;
 let t1: Date = new Date();
 const audioDataRepoUserName: string = import.meta.env.NEXTCLOUD_USERNAME;
 const audioDataRepoPassword: string = import.meta.env.NEXTCLOUD_PASSWORD;
@@ -32,7 +25,13 @@ class SpeechToText {
     lang: string,
     clbk: Callback | null,
     repeat: boolean = false,
-    status: string
+    status: HTMLElement | null,
+    voicerec: boolean,
+    imgtak: boolean,
+    audioDataIndex: number,
+    audioDataDest: string,
+    imgDataIndex: number,
+    videostm: HTMLVideoElement
   ) {
     this.fields = {
       lang,
@@ -40,6 +39,12 @@ class SpeechToText {
       repeat,
       status,
       running: false,
+      voicerec,
+      imgtak,
+      audioDataIndex,
+      audioDataDest,
+      imgDataIndex,
+      videostm,
       speech: null,
       finalResult: null,
       audioStream: null,
@@ -113,8 +118,8 @@ class SpeechToText {
 
     // 録音した音声を NextCloud に送信する関数
     const sendRecordedAudio = async (data: Blob): Promise<void> => {
-      const fileName = `${audioDataIndex}.wav`;
-      const dest = `${audioDataDest}/${fileName}`;
+      const fileName = `${f.audioDataIndex}.wav`;
+      const dest = `${f.audioDataDest}/${fileName}`;
 
       const file = new File([data], fileName, { type: 'application/octet-stream' });
 
@@ -211,7 +216,7 @@ class SpeechToText {
     // キャプチャした画像を NextCloud に送信する関数
     const sendTookImg = async (data: ImageDataItem): Promise<void> => {
       const fileName = `${data.imgDataIndex}.jpg`;
-      const dest = `${audioDataDest}/${fileName}`;
+      const dest = `${f.audioDataDest}/${fileName}`;
 
       const fileData = toBlob(data.base64);
       const file = new File([fileData], fileName, { type: 'application/octet-stream' });
@@ -256,25 +261,25 @@ class SpeechToText {
 
     // 結果をログに記録（オプション）
     f.speech.addEventListener('result', (e: SpeechRecognitionEvent) => {
-      // console.log(e);
+      console.log('認識結果 >', e.results[0][0].transcript);
     });
 
     // イベントハンドラの設定
     f.speech.onaudiostart = () => {
-      if (voicerec) {
+      if (f.voicerec) {
         console.log('録音開始');
         startRecord();
       }
     };
 
     f.speech.onsoundstart = () => {
-      f.status = '【音声認識中】';
+      if (f.status) f.status.innerHTML = "【<font color='red'>&#9679;</font> 音声認識中】";
     };
 
     f.speech.onnomatch = () => {
-      f.status = '【音声が聞き取れません】';
+      if (f.status) f.status.innerHTML = "【音声が聞き取れません】";
       f.running = false;
-      if (voicerec) {
+      if (f.voicerec) {
         stopRecord();
       }
       if (f.repeat) {
@@ -284,9 +289,9 @@ class SpeechToText {
     };
 
     f.speech.onerror = () => {
-      f.status = '【音声認識エラー】';
+      if (f.status) f.status.innerHTML = "【音声認識エラー】";
       f.running = false;
-      if (voicerec) {
+      if (f.voicerec) {
         stopRecord();
       }
       console.log('STT を再起動しています...');
@@ -294,9 +299,9 @@ class SpeechToText {
     };
 
     f.speech.onsoundend = () => {
-      f.status = '【音声認識終了】';
+      if (f.status) f.status.innerHTML = "【音声認識終了】";
       f.running = false;
-      if (voicerec) {
+      if (f.voicerec) {
         stopRecord();
       }
       console.log('STT を再起動しています...');
@@ -310,35 +315,35 @@ class SpeechToText {
         if (result.isFinal) {
           const t2 = new Date();
           const result_text = result[0].transcript.trim();
-          f.status = `【認識結果】 「${result_text}」`;
+          if (f.status) f.status.innerHTML = "【認識結果】 「" + result_text + "」";
           if (f.clbk) {
             f.clbk(result_text);
           } else {
             console.log(`${result_text}: 認識されましたが、コールバックが指定されていません。`);
           }
 
-          if (voicerec) {
+          if (f.voicerec) {
             stopRecord();
           }
 
-          if (imgtak) {
+          if (f.imgtak) {
             const diff = t2.getTime() - t1.getTime();
             const diffHour = diff / (1000 * 60 * 60);
             const diffMinute = (diffHour - Math.floor(diffHour)) * 60;
             const diffSecond = (diffMinute - Math.floor(diffMinute)) * 60;
 
             if (diffSecond >= 1) {
-              const base64 = drawImg(videostm);
+              const base64 = drawImg(f.videostm);
               base64arr.push({
                 base64,
-                imgDataIndex,
+                imgDataIndex: f.imgDataIndex,
               });
-              console.log(`画像を取得しました: ${imgDataIndex}`);
+              console.log(`画像を取得しました: ${f.imgDataIndex}`);
               t1 = t2;
             }
           }
 
-          if (imgtak && base64arr.length > 0) {
+          if (f.imgtak && base64arr.length > 0) {
             base64arr.forEach((dataItem) => {
               sendTookImg(dataItem).catch((err) => {
                 console.error('画像送信エラー:', err);
@@ -354,7 +359,8 @@ class SpeechToText {
             self.stop();
           }
         } else {
-          f.status = `【認識中】> ${result[0].transcript}`;
+          if (f.status) f.status.innerHTML 
+          = "【<font color='red'>&#9679;</font> 認識中】> " + results[i][0].transcript;
           if (!f.running) {
             f.running = true; // 認識中フラグをセット
           }
@@ -368,7 +374,7 @@ class SpeechToText {
    */
   public start(): void {
     const self = this;
-    if (voicerec) {
+    if (this.fields.voicerec) {
       navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then((stream: MediaStream) => {
@@ -377,7 +383,8 @@ class SpeechToText {
           if (self.fields.speech) {
             self.fields.speech.start();
           }
-          self.fields.status = "【音声認識準備完了】";
+          if (self.fields.status) self.fields.status.innerHTML = 
+          "【<font color='red'>&#9679;</font> 音声認識準備完了】";
           console.log('STT が開始されました。');
         })
         .catch((err) => {
@@ -389,8 +396,8 @@ class SpeechToText {
       if (self.fields.speech) {
         self.fields.speech.start();
       }
-      self.fields.status = "【音声認識準備完了】";
-      console.log('STT が開始されました。');
+      if (self.fields.status) self.fields.status.innerHTML =
+       "【<font color='red'>&#9679;</font> 音声認識準備完了】";
     }
   }
 
@@ -398,7 +405,7 @@ class SpeechToText {
    * 音声認識を停止します。
    */
   public stop(): void {
-    if (voicerec && this.fields.audioStream) {
+    if (this.fields.voicerec && this.fields.audioStream) {
       this.fields.audioStream.getTracks().forEach((track) => track.stop());
     }
     if (this.fields.speech) {
@@ -414,7 +421,7 @@ class SpeechToText {
   public reset(): void {
     console.log('STT をリセットします。');
     const self = this;
-    if (voicerec) {
+    if (this.fields.voicerec) {
       navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then((stream: MediaStream) => {
@@ -423,7 +430,8 @@ class SpeechToText {
           if (self.fields.speech) {
             self.fields.speech.start();
           }
-          self.fields.status = "【音声認識準備完了】";
+          if (self.fields.status) self.fields.status.innerHTML = 
+          "【<font color='red'>&#9679;</font> 音声認識準備完了】";
           console.log('STT が再開始されました。');
         })
         .catch((err) => {
@@ -435,7 +443,8 @@ class SpeechToText {
       if (self.fields.speech) {
         self.fields.speech.start();
       }
-      self.fields.status = "【音声認識準備完了】";
+      if (self.fields.status) self.fields.status.innerHTML = 
+      "【<font color='red'>&#9679;</font> 音声認識準備完了】";
       console.log('STT が再開始されました。');
     }
   }
