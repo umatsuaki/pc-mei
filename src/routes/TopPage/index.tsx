@@ -4,7 +4,7 @@ import LoginForm from "./components/LoginForm";
 import Preparation from "./components/Preparation";
 import UpdateHistory from "./components/UpdateHistory";
 
-function App() {
+const TopPage: React.FC = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h4" component="h1" gutterBottom>
@@ -19,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default TopPage;

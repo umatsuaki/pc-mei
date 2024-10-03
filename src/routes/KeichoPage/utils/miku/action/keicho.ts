@@ -9,6 +9,10 @@ import { postLoading } from "../../mikuActionUI";
 
 const keicho = async (str: string, config: MikuActionConfig, motion: string = "smile"): Promise<void> => {
     do {
+        if (!config.talking) {
+            return;
+        }
+
         const answer: string = await mikuAsk(str, config, motion) ?? "";
         if (/終わり$|やめる$/.test(answer)) {
             await endKeicho("またお話ししてくださいね", config, "bye");

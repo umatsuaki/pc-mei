@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { putPersonPreference, getPersonPreference, getPersonInfo } from '../../../libs/queryAndMutation/youid';
 import { SensorBoxMessage, Attributes } from '../../../libs/types/sensorBoxMessage';
 import mikuAsk from './miku/action/ask';
@@ -6,6 +5,7 @@ import keicho from './miku/action/keicho';
 import mikuSay from './miku/action/say';
 import { MikuActionConfig } from '../../../libs/types/mikuActionConfig';
 import { loadVideo } from './imgrec';
+import { audioDataDirectoryCreate, audioDataParentDirectoryCheck, audioDataParentDirectoryCreate } from '../../../libs/queryAndMutation/audioData';
 
 /**
  * センサボックスからのmessageを受け取って、messageの内容に応じて処理を行う関数
@@ -34,7 +34,9 @@ const processEvent = async (message: SensorBoxMessage, uid: string, config: Miku
 
         switch (sensorBoxAttribute.event) {
             case "present":
-                await startScenario(scenarioNumber, config);
+                if (!config.talking) {
+                    await startScenario(scenarioNumber, config);
+                }
                 break;
             default:
                 console.warn(`Unknown event type: ${sensorBoxAttribute.event}`);
@@ -59,8 +61,17 @@ const startScenario = async (num: number, config: MikuActionConfig): Promise<voi
         config.videostm = await loadVideo();
     }
 
+    // 親ディレクトリチェック～音声ファイル(画像ファイル)を保存するディレクトリを作成
+    if (config.voicerec == true || config.imgtak == true) {
+        const parentDirectoryCheck = await audioDataParentDirectoryCheck(config.uid);
+        if (!parentDirectoryCheck) {
+            config.audioDataDest = await audioDataParentDirectoryCreate(config.uid);
+        }
+        config.audioDataDest = await audioDataDirectoryCreate(config.uid);
+    }
+
     config.talking = true;
-    $("#status").html("");
+    document.getElementById("status")!.innerHTML = "";
 
     // シナリオに応じたアクションを実行
     await executeScenarioActions(num, config);

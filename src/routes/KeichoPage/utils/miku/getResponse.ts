@@ -24,31 +24,25 @@ const getResponse = async (ans: string, uid: string): Promise<string> => {
         }
 
         // スコアが高ければその応答を採用
-        if (result.bestResponse && result.bestResponse.score >= 0.01) {
+        if (result.bestResponse.score >= 0.01) {
             // 応答から一文ずつ出力
             let str: string = result.bestResponse.utterance;
             while (str.includes("。")) {
-                const periodIndex: number = str.indexOf("。");
-                const str1: string = str.substring(0, periodIndex + 1); // 「。」も含める
-                const str2: string = str.substring(periodIndex + 1).trim();
-
+                const index: number = str.indexOf("。");
+                const str1: string = str.substring(0, index);
+                const str2: string = str.substring(index + 1);
                 if (str2.length > 0) {
-                    await mikuSay(str1,uid);
+                    await mikuSay(str1, uid);
                     str = str2;
                 } else {
-                    await mikuSay(str1, uid);
                     return str1;
                 }
             }
-            // 残りの文が「。」を含まない場合
-            if (str.length > 0) {
-                await mikuSay(str, uid);
-                return str;
-            }
-            return "";
+            return str;
         } else {
             return "";
         }
+
     } catch (error) {
         console.error('getResponse関数内でエラーが発生しました:', error);
         throw error;

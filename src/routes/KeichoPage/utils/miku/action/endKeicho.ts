@@ -11,6 +11,13 @@ import mikuSay from "./say";
  * @returns Promise<void>
  */
 const endKeicho = async (str: string, config: MikuActionConfig, motion: string = "bye"): Promise<void> => {
+    
+    // talkingがfalseの場合は何もしない
+    if (!config.talking) {
+        return;
+    }
+
+
     // SpeechToTextが存在する場合は停止してnullに設定
     if (config.stt) {
         config.stt.stop();
@@ -32,7 +39,7 @@ const endKeicho = async (str: string, config: MikuActionConfig, motion: string =
     console.log("傾聴終了");
 
     // UIのステータスをクリア
-    $("#status").html("");
+    document.getElementById("status")!.innerHTML = "";
 
     // フラグをリセット
     config.talking = false;

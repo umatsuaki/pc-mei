@@ -1,13 +1,9 @@
-
-
-// ページに回答をポストする
-
 import dayjs from "dayjs";
 import 'dayjs/locale/ja';
 import { SPEAKER } from "../../../libs/types/speaker";
 import { postDialogueLogs } from "../../../libs/queryAndMutation/dialoguelogs";
 import { MikuActionLog } from "../../../libs/types/mikuActionLog";
-import { formatDate } from "../../../libs/utils";
+import { formatDate, scrollToBottom } from "../../../libs/utils";
 import { MikuActionConfig } from "../../../libs/types/mikuActionConfig";
 import { startScenario } from "./eventProcessor";
 import meiNormalImg from "../../../assets/img/mei_normal.png";
@@ -15,8 +11,8 @@ import $ from "jquery";
 
 dayjs.locale('ja');
 
-const bottomElement = document.getElementById("bottom");
-const scrollTopValue = bottomElement ? bottomElement.offsetTop : 0;
+
+
 
 // 引数は，回答テキストと話者(SPEAKER.AGENT または SPEAKER.USER)
 const postComment = (str: string | null, speaker: SPEAKER, animation: string) => {
@@ -58,8 +54,10 @@ const postComment = (str: string | null, speaker: SPEAKER, animation: string) =>
 
         $("#timeline").append(bubble);
 
+
+
         if (animation !== "no") {
-            $("html,body").animate({ scrollTop: scrollTopValue });
+            scrollToBottom();
         }
     }
 }
@@ -124,7 +122,7 @@ const postText = (str: string) => {
 
     $("#timeline").append(bubble);
 
-    $("html,body").animate({ scrollTop: scrollTopValue });
+    scrollToBottom();
 }
 
 // loading中の吹き出しを表示
@@ -153,7 +151,7 @@ const postLoading = () => {
 
     $("#timeline").append(bubble);
 
-    $("html,body").animate({ scrollTop: scrollTopValue });
+    scrollToBottom();
 }
 
 // ページを画面に表示させる
@@ -175,7 +173,7 @@ const postPage = async (pageURL: string, uid: string) => {
 
     $("#timeline").append(bubble);
 
-    $("html,body").animate({ scrollTop: scrollTopValue });
+    scrollToBottom();
     postDialogueLogs(`【ページを表示】${pageURL}`, SPEAKER.AGENT, uid);
 
 }
@@ -198,7 +196,7 @@ const putStartButton = async (config: MikuActionConfig, button_label = "メイ�
     });
 
     $("#status").append(restart_button);
-    $("html,body").animate({ scrollTop: scrollTopValue });
+    scrollToBottom();
 
     // ヒントを表示
     let hint = "【ヒント】「メニュー」と話しかけると，できることの一覧を表示します！";
@@ -215,7 +213,7 @@ const postHint = (str: string) => {
     }).append(comment);
 
     $("#status").append(contents);
-    $("html,body").animate({ scrollTop: scrollTopValue });
+    scrollToBottom();
 }
 
 export { postComment, postLog, postHelp, postText, postLoading, postPage, putStartButton, postHint };

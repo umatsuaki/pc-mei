@@ -1,6 +1,7 @@
 import MMD from "../../mmd";
 import { SPEAKER } from "../../../../../libs/types/speaker";
-import { postDialogueLogs } from "../../../../../libs/queryAndMutation/dialoguelogs";
+import saveAndDisplayDialogue from "../dialogueManager";
+
 
 const mmd = new MMD("localhost:8080", "localhost:39390");
 /**
@@ -14,11 +15,9 @@ const mikuSay = async (str: string, uid: string, motion: string = "smile"): Prom
         return;
     }
 
-    const speaker = SPEAKER.AGENT;
-
     await mmd.doMotion(motion);
     console.log("miku says " + str);
-    postDialogueLogs(str, speaker, uid);
+    saveAndDisplayDialogue(str, SPEAKER.AGENT, uid);
     while (str.includes(")") || str.includes("）")) {
         if (str.includes("(")) {
             const i = str.indexOf("(");

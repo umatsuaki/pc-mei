@@ -1,6 +1,5 @@
 
 import { getNowDateTimeAsString } from '../utils.ts';
-import { Person } from '../types/person';
 
 // nextCloudのエンドポイント
 const audioDataRepoBaseDest: string = import.meta.env.NEXTCLOUD_BASE_URL;
@@ -18,9 +17,9 @@ let audioDataDest: string | null = null;
  * 音声出力先親ディレクトリの存在確認
  * @returns {Promise<boolean>} ディレクトリが存在する場合はtrue、存在しない場合はfalse
  */
-const audioDataParentDirectoryCheck = async (person: Person): Promise<boolean> => {
+const audioDataParentDirectoryCheck = async (uid: string): Promise<boolean> => {
     // 現ユーザのYou-IDに対応するディレクトリが存在するかチェック
-    const userYouID: string = person.uid;
+    const userYouID = uid;
     const dest: string = `${audioDataRepoBaseDest}/${audioDataRepoUserName}/${encodeURIComponent(userYouID)}`;
 
     // 認証ヘッダーの作成
@@ -55,8 +54,8 @@ const audioDataParentDirectoryCheck = async (person: Person): Promise<boolean> =
  * 音声出力先親ディレクトリの作成
  * @returns {Promise<boolean>} 作成に成功した場合はtrue
  */
-const audioDataParentDirectoryCreate = async (person: Person): Promise<boolean> => {
-    const userYouID: string = person.uid;
+const audioDataParentDirectoryCreate = async (uid:string): Promise<string> => {
+    const userYouID = uid;
     const dest: string = `${audioDataRepoBaseDest}/${audioDataRepoUserName}/${encodeURIComponent(userYouID)}`;
 
     // 認証ヘッダーの作成
@@ -72,7 +71,7 @@ const audioDataParentDirectoryCreate = async (person: Person): Promise<boolean> 
 
         if (response.status >= 200 && response.status < 300) {
             console.log("audioDataParentDirectoryCreate OK");
-            return true;
+            return dest;
         } else {
             console.error(`Failed to create directory: ${response.status} ${response.statusText}`);
             throw new Error(`Failed to create directory: ${response.statusText}`);
@@ -89,8 +88,8 @@ const audioDataParentDirectoryCreate = async (person: Person): Promise<boolean> 
  * 特定のユーザのディレクトリの下に，日時を名前としたディレクトリを作成します
  * @returns {Promise<boolean>} 作成に成功した場合はtrue
  */
-const audioDataDirectoryCreate = async (person: Person): Promise<boolean> => {
-    const userYouID: string = person.uid;
+const audioDataDirectoryCreate = async (uid:string): Promise<string> => {
+    const userYouID = uid;
     const currentDateTime: string = getNowDateTimeAsString();
     const dest: string = `${audioDataRepoBaseDest}/${audioDataRepoUserName}/${encodeURIComponent(userYouID)}/${encodeURIComponent(currentDateTime)}`;
 
@@ -108,8 +107,7 @@ const audioDataDirectoryCreate = async (person: Person): Promise<boolean> => {
         if (response.status >= 200 && response.status < 300) {
             console.log("audioDataDirectoryCreate OK");
             // audioDataDest を書き換え
-            audioDataDest = dest;
-            return true;
+            return dest;
         } else {
             console.error(`Failed to create directory: ${response.status} ${response.statusText}`);
             throw new Error(`Failed to create directory: ${response.statusText}`);

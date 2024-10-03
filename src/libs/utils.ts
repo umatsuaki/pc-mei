@@ -126,8 +126,16 @@ const getRandomMotion = (): string => {
     return mikuMotion[random];
 }
 
+const scrollToBottom=(behavior: ScrollBehavior = 'smooth'): void =>{
+    const scrollHeight = document.documentElement.scrollHeight;
+    window.scrollTo({
+        top: scrollHeight,
+        behavior: behavior,
+    });
+}
 
 
 
 
-export { getUrlVars, getNowDateTimeAsString, refreshAt, formatDate, getRandomAiduchi, getRandomMotion };
+
+export { getUrlVars, getNowDateTimeAsString, refreshAt, formatDate, getRandomAiduchi, getRandomMotion, scrollToBottom };

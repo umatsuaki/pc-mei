@@ -27,6 +27,11 @@ const mikuAsk = async (
         }
     };
 
+    // talkingがfalseの場合は何もしない
+    if (!config.talking) {
+        return;
+    }
+
     // 音声データのインデックスをインクリメント
     if (config.voicerec === true) {
         config.audioDataIndex++;
@@ -35,11 +40,6 @@ const mikuAsk = async (
     // 画像データのインデックスをインクリメント
     if (config.imgtak === true) {
         config.imgDataIndex++;
-    }
-
-    // talkingがfalseの場合は何もしない
-    if (!config.talking) {
-        return;
     }
 
 
