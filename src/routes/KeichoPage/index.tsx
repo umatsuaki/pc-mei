@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import { createScrollTracker, initialize } from './utils/initialize';
 import  '/src/assets/css/mikuaction.css';
 
