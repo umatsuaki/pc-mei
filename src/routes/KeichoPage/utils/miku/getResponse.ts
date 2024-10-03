@@ -1,6 +1,7 @@
 import { MeboAPIResponse } from "../../../../libs/types/meboAPIResponse";
 import getMeboAPIResponse from "../../../../libs/queryAndMutation/meboAPI";
 import mikuSay from "./action/say";
+import { runGptApi } from "../../../../libs/queryAndMutation/chatGPT";
 
 
 
@@ -15,6 +16,8 @@ const getResponse = async (ans: string, uid: string): Promise<string> => {
     try {
         // MeboAPIを実行
         const result: MeboAPIResponse = await getMeboAPIResponse(ans, uid);
+
+
         console.log(result);
 
         // ローディング表示を消す
@@ -75,4 +78,37 @@ const getGreeting = (name: string | null = null): string => {
     return greet;
 }
 
-export { getResponse, getGreeting };
+const getChatGPTResponse = async (ans: string, uid: string): Promise<string> => {
+    try {
+        const result = await runGptApi(ans, uid);
+
+        // ローディング表示を消す
+        const element: HTMLElement | null = document.getElementById('loading');
+        if (element) {
+            element.remove();
+        }
+
+        // 応答から一文ずつ出力
+        let str: string = result.content;
+        while (str.includes("。")) {
+            const index: number = str.indexOf("。");
+            const str1: string = str.substring(0, index);
+            const str2: string = str.substring(index + 1);
+            if (str2.length > 0) {
+                await mikuSay(str1, uid);
+                str = str2;
+            } else {
+                return str1;
+            }
+        }
+        return str;
+
+    } catch (error) {
+        console.error('getChatGPTResponse関数内でエラーが発生しました:', error);
+        throw error;
+    }
+}
+
+
+
+export { getResponse, getGreeting, getChatGPTResponse };

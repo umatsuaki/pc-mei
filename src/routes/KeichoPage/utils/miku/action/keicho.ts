@@ -1,4 +1,4 @@
-import { getResponse } from "../getResponse";
+import { getChatGPTResponse } from "../getResponse";
 import { getRandomAiduchi } from "../../../../../libs/utils";
 import mikuAsk from "./ask";
 import { MikuActionConfig } from "../../../../../libs/types/mikuActionConfig";
@@ -20,7 +20,8 @@ const keicho = async (str: string, config: MikuActionConfig, motion: string = "s
         }
         postLoading();
         try {
-            str = await getResponse(answer, config.uid);
+            // str = await getResponse(answer, config.uid);
+            str = await getChatGPTResponse(answer, config.uid);
         } catch {
             str = getRandomAiduchi();
         }
