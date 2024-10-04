@@ -1,6 +1,7 @@
 import MMD from "../../mmd";
 import { SPEAKER } from "../../../../../libs/types/speaker";
 import saveAndDisplayDialogue from "../dialogueManager";
+import { scrollToBottom } from "../../../../../libs/utils";
 
 
 const mmd = new MMD("localhost:8080", "localhost:39390");
@@ -35,7 +36,9 @@ const mikuSay = async (str: string, uid: string, motion: string = "smile"): Prom
         }
     }
     console.log(str);
+    scrollToBottom();
     await mmd.speakSync(str);
+    
 
     return str;
 }
