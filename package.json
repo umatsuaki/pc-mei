@@ -20,6 +20,7 @@
     "@types/jquery": "^3.5.31",
     "@types/sockjs-client": "^1.5.4",
     "@types/stompjs": "^2.3.9",
+    "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "jquery": "^3.7.1",
     "react": "^18.3.1",

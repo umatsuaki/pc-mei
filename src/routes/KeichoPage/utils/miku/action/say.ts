@@ -2,9 +2,30 @@ import MMD from "../../mmd";
 import { SPEAKER } from "../../../../../libs/types/speaker";
 import saveAndDisplayDialogue from "../dialogueManager";
 import { scrollToBottom } from "../../../../../libs/utils";
+import axios from "axios";
 
 
-const mmd = new MMD("localhost:8080", "localhost:39390");
+// MMDサーバーに接続確認を行う関数
+const isMMDServerAvailable = async (): Promise<boolean> => {
+    try {
+        const response = await axios.get(`http://localhost:39390`);
+        return response.status === 200;
+    } catch {
+        return false;
+    }
+};
+
+let mmd: MMD | null = null;
+
+// サーバーが起動しているか確認してからMMDインスタンスを作成
+isMMDServerAvailable().then((available) => {
+    if (available) {
+        mmd = new MMD("localhost:8080", "localhost:39390");
+    } else {
+        console.warn("MMDサーバーが利用できません。モーションと音声機能はスキップされます。");
+    }
+});
+
 /**
  * モーション付きでミクちゃんが問いかける．Promiseが返る．
  * @param str 問いかけ文字列
@@ -16,7 +37,14 @@ const mikuSay = async (str: string, uid: string, motion: string = "smile"): Prom
         return;
     }
 
-    await mmd.doMotion(motion);
+    if (mmd) {
+        try {
+            await mmd.doMotion(motion);
+            console.log("miku does motion: " + motion);
+        } catch (error) {
+            console.error("Failed to perform motion:", error);
+        }
+    }
     console.log("miku says " + str);
     saveAndDisplayDialogue(str, SPEAKER.AGENT, uid);
     while (str.includes(")") || str.includes("）")) {
@@ -37,8 +65,14 @@ const mikuSay = async (str: string, uid: string, motion: string = "smile"): Prom
     }
     console.log(str);
     scrollToBottom();
-    await mmd.speakSync(str);
-    
+    if (mmd !== null) {
+        try {
+            await mmd.speakSync(str);
+        } catch (error) {
+            console.error("Failed to speak:", error);
+        }
+    }
+
 
     return str;
 }
