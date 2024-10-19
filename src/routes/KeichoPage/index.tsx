@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { initialize } from './utils/initialize';
-import '/src/assets/css/mikuaction.css';
 import { scrollToBottom } from '../../libs/utils';
+import './css/keicho.css';
 
 const KeichoPage: React.FC = () => {
   useEffect(() => {
@@ -12,7 +12,7 @@ const KeichoPage: React.FC = () => {
 
   return (
     <>
-      <div id="body" >
+      <div className="keicho-body" id="body" >
         <div id="timeline"></div>
         <div id="bottom">
           <span className="status" id="status"></span>

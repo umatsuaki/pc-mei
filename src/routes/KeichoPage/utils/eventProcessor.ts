@@ -142,7 +142,7 @@ const executeScenarioActions = async (num: number, config: MikuActionConfig): Pr
         // シナリオ0: デフォルト
 
         case 0:
-            await keicho("私に何でも話してください", config, "self_introduction");
+            await keicho("私になんでも話してください", config, "self_introduction");
             return;
 
         // シナリオ1: 6，7時 (睡眠について)
@@ -201,10 +201,23 @@ const executeScenarioActions = async (num: number, config: MikuActionConfig): Pr
             await keicho(`最近あった${feelings[today.getDay()]}ことについて，話していただけませんか？`, config, "self_introduction");
             return;
 
-        // シナリオ6: 16，17時 (雑談)
-        case 6:
-            await mikuSay(`${person.nickname}さん，こんにちは`, uid, "greeting");
-            return;
+        // // 16，17時 (雑談)
+        // case 6:
+        //     ans = await miku_ask(person.nickname + "さん，いまお時間はありますか？（はい／いいえ）");
+        //     if (/はい/.test(ans) || /ある/.test(ans) || /あります/.test(ans)) {
+        //         // await keicho("なんでも話してください", "self_introduction");
+        //         var today = new Date();
+        //         var keyword = apps[today.getDay()].keyword;
+        //         if (keyword == "YouTube") {
+        //             keyword = "ユーチューブ(YouTube)";
+        //         }
+        //         var description = apps[today.getDay()].description;
+        //         await miku_say("私は" + description + "をすることができます", "smile");
+        //         await keicho("よければ私に" + keyword + "と言ってみて下さい", "self_introduction");
+        //     } else {
+        //         await end_keicho("わかりました．またお話ししてくださいね");
+        //     }
+        //     return;
 
         // シナリオ7: 18，19時 (夕食について)
         case 7:
