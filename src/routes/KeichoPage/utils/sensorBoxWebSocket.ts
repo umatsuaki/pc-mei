@@ -1,10 +1,10 @@
 import SockJS from "sockjs-client";
-import { Stomp } from "@stomp/stompjs";
+import Stomp from "stompjs";
 import { processEvent } from "./eventProcessor";
 import { MikuActionConfig } from "../../../libs/types/mikuActionConfig";
 
 // Web socketを初期化
-const initWebSocket = (config: MikuActionConfig): void => {
+const initWebSocket = (config:MikuActionConfig): void => {
     const topic: string = "sensorbox.presence";
     const socket = new SockJS("https://wsapp.cs.kobe-u.ac.jp/cs27pubsub/ws");
     const stompClient = Stomp.over(socket);

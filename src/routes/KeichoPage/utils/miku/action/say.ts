@@ -8,7 +8,7 @@ import axios from "axios";
 // MMDサーバーに接続確認を行う関数
 const isMMDServerAvailable = async (): Promise<boolean> => {
     try {
-        const response = await axios.get(`http://localhost:39390`);
+        const response = await axios.get(`http://localhost:8080`);
         return response.status === 200;
     } catch {
         return false;
