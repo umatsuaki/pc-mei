@@ -32,7 +32,7 @@ const InstallManualPage: React.FC = () => {
             <MMDAgentSection />
             <TestSection />
 
-            <Button variant="contained" href="/" sx={{ marginTop: '20px' }}>戻る</Button>
+            <Button variant="contained" href="./" sx={{ marginTop: '20px' }}>戻る</Button>
         </Container>
     );
 }

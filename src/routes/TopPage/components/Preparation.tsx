@@ -8,7 +8,7 @@ const Preparation: React.FC = () => {
         事前準備
       </Typography>
       <Typography variant="body1">
-        初めての方はまず<a href="/install-manual">こちら</a>をお読み下さい。
+        初めての方はまず<Link href ="./install-manual">こちら</Link>をお読み下さい。
       </Typography>
       <Typography variant="h6" gutterBottom>
         1. ソフトウェアのインストール
