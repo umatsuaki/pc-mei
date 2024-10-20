@@ -2,11 +2,11 @@
 import { getNowDateTimeAsString } from '../utils.ts';
 
 // nextCloudのエンドポイント
-const audioDataRepoBaseDest: string = import.meta.env.NEXTCLOUD_BASE_URL;
+const audioDataRepoBaseDest: string = import.meta.env.VITE_NEXTCLOUD_BASE_URL;
 
 // nextCloudの認証情報
-const audioDataRepoUserName: string = import.meta.env.NEXTCLOUD_USERNAME;
-const audioDataRepoPassword: string = import.meta.env.NEXTCLOUD_PASSWORD;
+const audioDataRepoUserName: string = import.meta.env.VITE_NEXTCLOUD_USERNAME;
+const audioDataRepoPassword: string = import.meta.env.VITE_NEXTCLOUD_PASSWORD;
 
 // 現セッションにおける音声データの保存先ディレクトリ
 let audioDataDest: string | null = null;

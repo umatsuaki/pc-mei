@@ -126,7 +126,8 @@ const getRandomMotion = (): string => {
     return mikuMotion[random];
 }
 
-const scrollToBottom=(behavior: ScrollBehavior = 'smooth'): void =>{
+// ページの一番下までスクロールする関数
+const scrollToBottom = (behavior: ScrollBehavior = 'smooth'): void => {
     const scrollHeight = document.documentElement.scrollHeight;
     window.scrollTo({
         top: scrollHeight,

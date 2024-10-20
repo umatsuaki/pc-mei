@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 import InstallManualPage from './routes/InstallManualPage';
 import TopPage from './routes/TopPage';
 import KeichoPage from './routes/KeichoPage';
+import StreetViewPage from './routes/StreetViewPage';
 
 export const router: RouteObject[] = [
     {
@@ -16,5 +17,9 @@ export const router: RouteObject[] = [
     {
         path: '/keicho',
         element: <KeichoPage />
+    },
+    {
+        path: '/street-view',
+        element: <StreetViewPage />
     }
 ];

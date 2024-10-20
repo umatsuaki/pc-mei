@@ -14,8 +14,8 @@ import { ImageDataItem } from '../../../libs/types/ImageDataItem';
 import { Callback } from '../../../libs/types/callback';
 
 let t1: Date = new Date();
-const audioDataRepoUserName: string = import.meta.env.NEXTCLOUD_USERNAME;
-const audioDataRepoPassword: string = import.meta.env.NEXTCLOUD_PASSWORD;
+const audioDataRepoUserName: string = import.meta.env.VITE_NEXTCLOUD_USERNAME;
+const audioDataRepoPassword: string = import.meta.env.VITE_NEXTCLOUD_PASSWORD;
 
 class SpeechToText {
   private fields: SpeechRecognitionState;
@@ -359,8 +359,8 @@ class SpeechToText {
             self.stop();
           }
         } else {
-          if (f.status) f.status.innerHTML 
-          = "【<font color='red'>&#9679;</font> 認識中】> " + results[i][0].transcript;
+          if (f.status) f.status.innerHTML
+            = "【<font color='red'>&#9679;</font> 認識中】> " + results[i][0].transcript;
           if (!f.running) {
             f.running = true; // 認識中フラグをセット
           }
@@ -383,8 +383,8 @@ class SpeechToText {
           if (self.fields.speech) {
             self.fields.speech.start();
           }
-          if (self.fields.status) self.fields.status.innerHTML = 
-          "【<font color='red'>&#9679;</font> 音声認識準備完了】";
+          if (self.fields.status) self.fields.status.innerHTML =
+            "【<font color='red'>&#9679;</font> 音声認識準備完了】";
           console.log('STT が開始されました。');
         })
         .catch((err) => {
@@ -397,7 +397,7 @@ class SpeechToText {
         self.fields.speech.start();
       }
       if (self.fields.status) self.fields.status.innerHTML =
-       "【<font color='red'>&#9679;</font> 音声認識準備完了】";
+        "【<font color='red'>&#9679;</font> 音声認識準備完了】";
     }
   }
 
@@ -430,8 +430,8 @@ class SpeechToText {
           if (self.fields.speech) {
             self.fields.speech.start();
           }
-          if (self.fields.status) self.fields.status.innerHTML = 
-          "【<font color='red'>&#9679;</font> 音声認識準備完了】";
+          if (self.fields.status) self.fields.status.innerHTML =
+            "【<font color='red'>&#9679;</font> 音声認識準備完了】";
           console.log('STT が再開始されました。');
         })
         .catch((err) => {
@@ -443,8 +443,8 @@ class SpeechToText {
       if (self.fields.speech) {
         self.fields.speech.start();
       }
-      if (self.fields.status) self.fields.status.innerHTML = 
-      "【<font color='red'>&#9679;</font> 音声認識準備完了】";
+      if (self.fields.status) self.fields.status.innerHTML =
+        "【<font color='red'>&#9679;</font> 音声認識準備完了】";
       console.log('STT が再開始されました。');
     }
   }
