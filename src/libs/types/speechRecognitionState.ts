@@ -1,6 +1,6 @@
 import { Callback } from './callback';
 
-export interface SpeechRecognitionState {
+export type SpeechRecognitionState = {
     lang: string;
     clbk: Callback | null;
     repeat: boolean;

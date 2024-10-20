@@ -1,7 +1,7 @@
 /**
  * 対話ログをPOSTする際のデータ構造
  */
-export interface DialogueLogForPost {
+export type DialogueLogForPost ={
     from: string;
     to: string;
     contents: string;

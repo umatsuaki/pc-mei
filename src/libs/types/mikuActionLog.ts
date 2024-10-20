@@ -1,4 +1,4 @@
-export interface MikuActionLog {
+export type MikuActionLog ={
     time: string;
     contents: string;
 }

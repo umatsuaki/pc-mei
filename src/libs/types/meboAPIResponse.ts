@@ -1,4 +1,4 @@
-export interface BestResponse {
+export type BestResponse ={
     utterance: string;
     score: number;
     options: any[];
@@ -12,7 +12,7 @@ export interface BestResponse {
     embededHtml: string;
 }
 
-export interface MeboAPIResponse {
+export type MeboAPIResponse ={
     utterance: string;
     bestResponse: BestResponse;
     avatarIconUrl: string;

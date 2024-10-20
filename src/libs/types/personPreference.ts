@@ -1,4 +1,4 @@
-export interface PersonPreference<T = any> {
+export type PersonPreference<T = any> ={
     prefId: string;
     uid: string;
     aid: string;

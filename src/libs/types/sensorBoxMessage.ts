@@ -1,4 +1,4 @@
-export interface SensorBoxMessage {
+export type SensorBoxMessage ={
     messageId: number;
     data: string;
     attributes: Attributes;
@@ -7,7 +7,7 @@ export interface SensorBoxMessage {
     publisher: string;
 }
 
-export interface Attributes {
+export type Attributes ={
     datetime: string;
     recorder: string;
     subject: string;

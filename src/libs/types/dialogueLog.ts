@@ -1,7 +1,7 @@
 /**
  * 対話ログの型
  */
-export interface DialogueLog {
+export type DialogueLog ={
 
     _id: string;
     from: string;

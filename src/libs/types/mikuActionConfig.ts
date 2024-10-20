@@ -1,6 +1,6 @@
 import SpeechToText  from '../../routes/KeichoPage/utils/speechToText';
 
-export interface MikuActionConfig {
+export type MikuActionConfig ={
     uid: string;
     stt: SpeechToText | null;
     voicerec: boolean;
