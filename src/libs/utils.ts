@@ -135,8 +135,21 @@ const scrollToBottom = (behavior: ScrollBehavior = 'smooth'): void => {
     });
 }
 
+//　傾聴ページに遷移する関数
+const goToKeicho = () => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const uid = queryParams.get('uid');
+    const voicerec = queryParams.get('voicerec');
+    const imgtak = queryParams.get('imgtak');
+
+    const baseUrl = '/pc-mei-react';
+    const targetUrl = `${baseUrl}/keicho?uid=${uid}&voicerec=${voicerec}&imgtak=${imgtak}`;
+
+    window.location.replace(targetUrl);
+}
 
 
 
 
-export { getUrlVars, getNowDateTimeAsString, refreshAt, formatDate, getRandomAiduchi, getRandomMotion, scrollToBottom };
+
+export { getUrlVars, getNowDateTimeAsString, refreshAt, formatDate, getRandomAiduchi, getRandomMotion, scrollToBottom, goToKeicho };
