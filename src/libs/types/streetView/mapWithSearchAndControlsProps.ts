@@ -1,4 +1,4 @@
-export interface MapWithSearchAndControlsProps {
+export type MapWithSearchAndControlsProps ={
     panoramaRef: React.RefObject<HTMLDivElement>;
     apiKey: string;
 }

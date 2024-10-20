@@ -15,10 +15,11 @@ const defaultCenter = {
     lng: -73.990988
 };
 
-const MapComponent: React.FC<MapComponentProps> = ({ panoramaRef, apiKey, heading, pitch, zoom }) => {
+const MapComponent: React.FC<MapComponentProps> = ({ panoramaRef, streetViewPanorama, apiKey, heading, pitch, zoom }) => {
     const [center, setCenter] = useState(defaultCenter);
     const [location, setLocation] = useState('');
     const mapRef = useRef<google.maps.Map | null>(null);
+
 
     // 場所の検索を処理する関数
     const handleSearch = async () => {
@@ -54,9 +55,9 @@ const MapComponent: React.FC<MapComponentProps> = ({ panoramaRef, apiKey, headin
                 mapContainerStyle={containerStyle}
                 center={center}
                 zoom={14}
-                onLoad={(map) => { mapRef.current = map; }} // Google Map インスタンスを保持
+                onLoad={(map) => { mapRef.current = map; }} 
             >
-                <StreetView panoramaRef={panoramaRef} center={center} heading={heading} pitch={pitch} zoom={zoom} />
+                <StreetView panoramaRef={panoramaRef} streetViewPanorama={streetViewPanorama} center={center} heading={heading} pitch={pitch} zoom={zoom} />
             </GoogleMap>
         </Box>
     );

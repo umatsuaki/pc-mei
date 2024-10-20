@@ -2,8 +2,7 @@ import React from 'react';
 import { Box, Button } from '@mui/material';
 import { MapControlsProps } from '../../../libs/types/streetView/mapControlsProps';
 
-
-const MapControls: React.FC<MapControlsProps> = ({ moveMap, zoomMap }) => {
+const MapControlButton: React.FC<MapControlsProps> = ({ moveMap, zoomMap }) => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
             {/* 移動ボタン */}
@@ -19,4 +18,4 @@ const MapControls: React.FC<MapControlsProps> = ({ moveMap, zoomMap }) => {
     );
 };
 
-export default MapControls;
+export default MapControlButton;
