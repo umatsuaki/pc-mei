@@ -2,15 +2,15 @@ import React from 'react';
 import { Box, Button } from '@mui/material';
 import { MapControlButtonProps } from '../../../libs/types/streetView/mapControlButtonProps';
 
-const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap }) => {
+const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap, moveForward }) => {
     return (
-        <Box sx={{ 
+        <Box sx={{
             display: 'flex',
             justifyContent: 'center',
             width: '100%',
             marginTop: 2
         }}>
-            <Box sx={{ 
+            <Box sx={{
                 display: 'grid',
                 gridTemplateColumns: '100px 100px 100px 150px',
                 gridTemplateRows: '100px 100px 100px',
@@ -22,9 +22,9 @@ const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap })
                 }
             }}>
                 <Box sx={{ gridColumn: '2', gridRow: '1' }}>
-                    <Button 
-                        fullWidth 
-                        variant="contained" 
+                    <Button
+                        fullWidth
+                        variant="contained"
                         onClick={() => moveMap(0, 5)}
                         sx={{ backgroundColor: '#2196F3', '&:hover': { backgroundColor: '#1976D2' } }}
                     >
@@ -33,9 +33,9 @@ const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap })
                 </Box>
 
                 <Box sx={{ gridColumn: '4', gridRow: '1' }}>
-                    <Button 
-                        fullWidth 
-                        variant="contained" 
+                    <Button
+                        fullWidth
+                        variant="contained"
                         onClick={() => zoomMap(1)}
                         sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#388E3C' } }}
                     >
@@ -44,21 +44,33 @@ const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap })
                 </Box>
 
                 <Box sx={{ gridColumn: '1', gridRow: '2' }}>
-                    <Button 
-                        fullWidth 
-                        variant="contained" 
-                        onClick={() => moveMap(-5, 0)}
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() => moveMap(-10, 0)}
                         sx={{ backgroundColor: '#FF9800', '&:hover': { backgroundColor: '#F57C00' } }}
                     >
                         ←<br />左へ移動
                     </Button>
                 </Box>
 
+                <Box sx={{ gridColumn: '2', gridRow: '2' }}>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() => moveForward(1)}
+                        sx={{ backgroundColor: '#3F51B5', '&:hover': { backgroundColor: '#303F9F' } }}
+                    >
+                        ↑<br />前へ進む
+                    </Button>
+                </Box>
+
+
                 <Box sx={{ gridColumn: '3', gridRow: '2' }}>
-                    <Button 
-                        fullWidth 
-                        variant="contained" 
-                        onClick={() => moveMap(5, 0)}
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() => moveMap(10, 0)}
                         sx={{ backgroundColor: '#E91E63', '&:hover': { backgroundColor: '#C2185B' } }}
                     >
                         →<br />右へ移動
@@ -66,9 +78,9 @@ const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap })
                 </Box>
 
                 <Box sx={{ gridColumn: '2', gridRow: '3' }}>
-                    <Button 
-                        fullWidth 
-                        variant="contained" 
+                    <Button
+                        fullWidth
+                        variant="contained"
                         onClick={() => moveMap(0, -5)}
                         sx={{ backgroundColor: '#9C27B0', '&:hover': { backgroundColor: '#7B1FA2' } }}
                     >
@@ -77,9 +89,9 @@ const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap })
                 </Box>
 
                 <Box sx={{ gridColumn: '4', gridRow: '3' }}>
-                    <Button 
-                        fullWidth 
-                        variant="contained" 
+                    <Button
+                        fullWidth
+                        variant="contained"
                         onClick={() => zoomMap(-1)}
                         sx={{ backgroundColor: '#F44336', '&:hover': { backgroundColor: '#D32F2F' } }}
                     >

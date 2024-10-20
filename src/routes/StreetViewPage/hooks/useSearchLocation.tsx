@@ -4,7 +4,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { goToKeicho } from '../../../libs/utils';
 
 const useSearchLocation = (apiKey: string) => {
-    const [center, setCenter] = useState({ lat: 40.729884, lng: -73.990988 });
+    const [center, setCenter] = useState({ lat: 35.6895, lng: 139.6917 });
     const [location, setLocation] = useState('');
     const [showTranscript, setShowTranscript] = useState(false);
     const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
@@ -84,7 +84,7 @@ const useSearchLocation = (apiKey: string) => {
     // 「終わり」という文字が含まれていたら傾聴ページに遷移する
     useEffect(() => {
         if (transcript.includes('終わり')) {
-            goToKeicho(); 
+            goToKeicho();
         }
     }, [transcript]);
 

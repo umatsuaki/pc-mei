@@ -7,12 +7,12 @@ import useStreetViewControls from '../hooks/useStreetViewControls';
 
 const MapWithSearchAndControls: React.FC<MapWithSearchAndControlsProps> = ({ panoramaRef, apiKey }) => {
 
-    const { streetViewPanorama, heading, pitch, zoom, moveMap, zoomMap } = useStreetViewControls();
+    const { streetViewPanorama, heading, pitch, zoom, moveMap, zoomMap, moveForward } = useStreetViewControls();
 
     return (
         <Box>
             <MapComponent panoramaRef={panoramaRef} streetViewPanorama={streetViewPanorama} apiKey={apiKey} heading={heading} pitch={pitch} zoom={zoom} />
-            <MapControlButton moveMap={moveMap} zoomMap={zoomMap} />
+            <MapControlButton moveMap={moveMap} zoomMap={zoomMap} moveForward={moveForward} />
         </Box>
     );
 };
