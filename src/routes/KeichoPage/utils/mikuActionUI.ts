@@ -178,6 +178,32 @@ const postPage = async (pageURL: string, uid: string) => {
 
 }
 
+const postPhoto = async (photo_reference: string) => {
+    const id = formatDate(new Date(), 'yyyyMMddHHmmssms');
+    const api_key: string = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+    const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_reference}&key=${api_key}`;
+
+    // 写真の表示用img要素を作成
+    const comment = $("<img></img>", {
+        class: "bubble bubble-half-bottom normal",
+        id: id,
+        src: photoUrl,
+        style: "max-width: 100%; height: auto;",
+    }).text("写真を表示できませんでした");
+
+    const bubble = $("<div></div>", {
+        class: "container",
+    }).append(comment);
+
+    // timelineに追加
+    $("#timeline").append(bubble);
+
+    // スクロールを最下部に移動
+    scrollToBottom();
+}
+
+
 /**
  * 会話開始ボタンを配置する
  * @param {*} button_label 
@@ -216,4 +242,4 @@ const postHint = (str: string) => {
     scrollToBottom();
 }
 
-export { postComment, postLog, postHelp, postText, postLoading, postPage, putStartButton, postHint };
+export { postComment, postLog, postHelp, postText, postLoading, postPage, postPhoto, putStartButton, postHint };

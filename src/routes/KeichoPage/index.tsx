@@ -3,6 +3,8 @@ import { initialize } from './utils/initialize';
 import { scrollToBottom } from '../../libs/utils';
 import './css/keicho.css';
 
+
+
 const KeichoPage: React.FC = () => {
   useEffect(() => {
     initialize();

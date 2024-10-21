@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button } from '@mui/material';
 import { MapControlButtonProps } from '../../../libs/types/streetView/mapControlButtonProps';
 
-const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap, moveForward }) => {
+const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap}) => {
     return (
         <Box sx={{
             display: 'flex',
@@ -53,18 +53,6 @@ const MapControlButton: React.FC<MapControlButtonProps> = ({ moveMap, zoomMap, m
                         ←<br />左へ移動
                     </Button>
                 </Box>
-
-                <Box sx={{ gridColumn: '2', gridRow: '2' }}>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        onClick={() => moveForward(1)}
-                        sx={{ backgroundColor: '#3F51B5', '&:hover': { backgroundColor: '#303F9F' } }}
-                    >
-                        ↑<br />前へ進む
-                    </Button>
-                </Box>
-
 
                 <Box sx={{ gridColumn: '3', gridRow: '2' }}>
                     <Button

@@ -1,5 +1,3 @@
-
-
 const goToStreetView = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const uid = queryParams.get('uid');

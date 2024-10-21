@@ -5,7 +5,7 @@ import { getPersonInfo } from "./youid";
 /**
  * ChatGPTAPIで解答を取得する
  */
-const getChatgptResponse = async (ans: string): Promise<gptResponse> => {
+const getChatGptAnswer = async (ans: string): Promise<gptResponse> => {
     const url = `https://wsapp.cs.kobe-u.ac.jp/gitlab-nodejs/chatgpt/text=${encodeURIComponent(ans)}`;
     return fetch(url, {
         method: 'GET',
@@ -84,5 +84,5 @@ const runGptApi = async (ans: string, uid: string): Promise<gptResponse> => {
     }
 }
 
-export { getChatgptResponse, runGptApi };
+export { getChatGptAnswer, runGptApi };
 

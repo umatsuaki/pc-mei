@@ -18,4 +18,21 @@ const getCoordinates = async (address: string, apiKey: string) => {
     }
 };
 
-export { getCoordinates };
+//PlacesAPIを使って場所の候補を取得する関数
+const getPlaces = async (query: string, apiKey: string, lat: number, lng: number, radius: number) => {
+    try {
+        const response = await fetch(
+            `https://wsapp.cs.kobe-u.ac.jp/matsuaki-map-api/places/?query=${encodeURIComponent(query)}&lat=${lat}&lng=${lng}&radius=${radius}&api_key=${apiKey}`
+        );
+        console.log(response);
+        const data = await response.json();
+        const results = data.results;
+        return results;
+    } catch (error) {
+        console.error('Places APIの取得エラー:', error);
+        throw error;
+    }
+}
+
+
+export { getCoordinates, getPlaces };

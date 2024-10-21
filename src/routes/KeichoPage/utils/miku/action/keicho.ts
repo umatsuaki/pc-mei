@@ -3,9 +3,10 @@ import { getRandomAiduchi } from "../../../../../libs/utils";
 import mikuAsk from "./ask";
 import { MikuActionConfig } from "../../../../../libs/types/mikuActionConfig";
 import endKeicho from "./endKeicho";
-import { postLoading } from "../../mikuActionUI";
+import { postLoading, postPhoto } from "../../mikuActionUI";
 import mikuSay from "./say";
-import goToStreetView from "../../microServices/streetViewService";
+import goToStreetView from "../../microservices/streetViewService";
+import { runNearByPlaceService } from "../../microservices/nearbyPlaceService";
 
 
 
@@ -21,9 +22,22 @@ const keicho = async (str: string, config: MikuActionConfig, motion: string = "s
             return;
         }
         if (/地図/.test(answer)) {
-            await mikuSay("地図を表示します", config.uid, "smile");
+            await mikuSay("ストリートビューを表示します", config.uid, "smile");
             goToStreetView();
             return;
+        }
+        if (/おでかけ$|お出かけ$/.test(answer)) {
+            console.log("おでかけ");
+            const outing = await mikuAsk("今日はどんな場所に出かけたいですか", config, "smile");
+            if (outing) {
+                const outingResult = await runNearByPlaceService(outing);
+                await mikuSay(outingResult.content, config.uid, "smile");
+                await mikuSay("こちらの写真を見てください", config.uid, "smile");
+                if (outingResult.photoReference !== "") {
+                    await postPhoto(outingResult.photoReference);
+                }
+                await mikuAsk("いかがですか？", config, "smile");
+            }
         }
         postLoading();
         try {
