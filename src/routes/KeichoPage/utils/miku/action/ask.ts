@@ -12,6 +12,7 @@ import SpeechToText from "../../speechToText";
 import mikuSay from "./say";
 import endKeicho from "./endKeicho";
 import saveAndDisplayDialogue from "../dialogueManager";
+import { scrollToBottom } from "../../../../../libs/utils";
 
 const mikuAsk = async (
     str: string,
@@ -71,6 +72,7 @@ const mikuAsk = async (
         });
 
         // ユーザーからの回答を待機
+        scrollToBottom();
         answer = await promise;
     } while (answer.length === 0);
 
