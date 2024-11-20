@@ -1,6 +1,8 @@
 import React from "react";
 import { Typography, Link, List, ListItem } from "@mui/material";
 
+const youIdEndPoint = import.meta.env.VITE_YOUID_URL;
+
 const Preparation: React.FC = () => {
   return (
     <div>
@@ -8,7 +10,7 @@ const Preparation: React.FC = () => {
         事前準備
       </Typography>
       <Typography variant="body1">
-        初めての方はまず<Link href ="./install-manual">こちら</Link>をお読み下さい。
+        初めての方はまず<Link href="./install-manual">こちら</Link>をお読み下さい。
       </Typography>
       <Typography variant="h6" gutterBottom>
         1. ソフトウェアのインストール
@@ -29,7 +31,7 @@ const Preparation: React.FC = () => {
         <ListItem>VAとの対話を行うには、利用者の識別子(You-ID)が必要です。</ListItem>
         <ListItem>
           You-IDを未取得または忘れた人は
-          <Link href="https://wsapp.cs.kobe-u.ac.jp/YouId/" target="_blank">
+          <Link href={youIdEndPoint} target="_blank">
             こちらから取得
           </Link>
           してください。

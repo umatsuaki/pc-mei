@@ -5,6 +5,9 @@ import { DialogueLogForPost } from '../types/dailogueLogForPost';
 import dayjs from 'dayjs';
 import { getPersonInfo } from './youid';
 
+const dialogueAPIURL = import.meta.env.VITE_DIALOGUE_API_URL;
+const mongoAPIURL = import.meta.env.VITE_MONGO_API_URL;
+
 /**
  * APIを実行し，指定した日付の対話ログを取得
  * @param date - 対話ログを取得したい日付
@@ -17,7 +20,7 @@ async function getDialogueLogs(date: Date, uid: string): Promise<DialogueLog[]> 
     const dateStr: string = formatDate(date, 'yyyy-MM-dd');
 
     // URLを構築します。person.uidが適切に定義されていることを前提としています。
-    const url: string = `https://wsapp.cs.kobe-u.ac.jp/keicho-nodejs/keicholog-api/uid=${person.uid}/date=${dateStr}`;
+    const url: string = `${dialogueAPIURL}/uid=${person.uid}/date=${dateStr}`;
 
     try {
         const response: Response = await fetch(url, {
@@ -56,7 +59,7 @@ const postDialogueLogs = async (str: string, speaker: SPEAKER, uid: string): Pro
 
     const person = await getPersonInfo(uid);
 
-    const url: string = 'https://wsapp.cs.kobe-u.ac.jp/~masa-n/FluentdProxy/proxy.cgi';
+    const url: string = mongoAPIURL;
 
     // データ作成
     const data: DialogueLogForPost = {

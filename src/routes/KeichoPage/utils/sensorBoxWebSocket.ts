@@ -3,10 +3,12 @@ import Stomp from "stompjs";
 import { processEvent } from "./eventProcessor";
 import { MikuActionConfig } from "../../../libs/types/mikuActionConfig";
 
+const webSocketURL = import.meta.env.VITE_WEBSOCKET_URL;
+
 // Web socketを初期化
-const initWebSocket = (config:MikuActionConfig): void => {
+const initWebSocket = (config: MikuActionConfig): void => {
     const topic: string = "sensorbox.presence";
-    const socket = new SockJS("https://wsapp.cs.kobe-u.ac.jp/cs27pubsub/ws");
+    const socket = new SockJS(webSocketURL);
     const stompClient = Stomp.over(socket);
 
     stompClient.connect({}, (frame: any) => {

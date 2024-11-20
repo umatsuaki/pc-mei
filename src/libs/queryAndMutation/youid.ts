@@ -8,7 +8,7 @@ import { Person } from "../types/person";
 import { PersonPreference } from "../types/personPreference";
 
 
-const youidEndpoint: string = "https://wsapp.cs.kobe-u.ac.jp/YouId/api";
+const youidEndpoint: string = import.meta.env.VITE_YOUID_API_URL;
 
 /**
  * 指定されたUIDのユーザー情報を取得する

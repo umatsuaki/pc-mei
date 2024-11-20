@@ -2,11 +2,14 @@ import { gptResponse } from "../types/gptResponse";
 import { getDialogueLogs } from "./dialoguelogs";
 import { getPersonInfo } from "./youid";
 
+const chatGPTAPIUrl = import.meta.env.VITE_CHATGPT_API_URL;
+
+
 /**
  * ChatGPTAPIで解答を取得する
  */
 const getChatGptAnswer = async (ans: string): Promise<gptResponse> => {
-    const url = `https://wsapp.cs.kobe-u.ac.jp/gitlab-nodejs/chatgpt/text=${encodeURIComponent(ans)}`;
+    const url = `${chatGPTAPIUrl}/text=${encodeURIComponent(ans)}`;
     return fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -64,7 +67,7 @@ const runGptApi = async (ans: string, uid: string): Promise<gptResponse> => {
 
 
         console.log(`プロンプト: ${prompt}`);
-        const url = `https://wsapp.cs.kobe-u.ac.jp/gitlab-nodejs/chatgpt/text=${encodeURIComponent(prompt)}`;
+        const url = `${chatGPTAPIUrl}/text=${encodeURIComponent(prompt)}`;
 
         const response = await fetch(url, {
             method: 'GET',

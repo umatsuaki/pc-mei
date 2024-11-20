@@ -1,5 +1,7 @@
 import { MeboAPIResponse } from '../types/meboAPIResponse';
 
+const meboAPIURL = import.meta.env.VITE_MEBO_API_URL;
+
 /**
  * meboAPIを実行します。
  * 
@@ -13,7 +15,7 @@ const getMeboAPIResponse = async (ans: string, uid: String): Promise<MeboAPIResp
     const id: string = uid.substring(0, 20);
 
     // テンプレートリテラルを使用してURLを構築します。
-    const url: string = `https://wsapp.cs.kobe-u.ac.jp/ozono-nodejs/api/mebo/uid=${id}/utterance=${encodeURIComponent(ans)}`;
+    const url: string = `${meboAPIURL}/uid=${id}/utterance=${encodeURIComponent(ans)}`;
 
     try {
         // APIにGETリクエストを送信します。
